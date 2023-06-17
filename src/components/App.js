@@ -7,13 +7,12 @@ const apiUrl = "http://www.omdbapi.com/?apikey=" + apiKey + "&s=";
 // Define a custom component for the movie
 function Movie({ movie }) {
   return (
-    <div className="movie">
-      <img src={movie.Poster} alt={movie.Title} />
+    <li className="movie">
       <div className="movie-info">
-        <span className="movie-title">{movie.Title}</span>
-        <span className="movie-year">({movie.Year})</span>
+        <span className="movie-title">{movie.Title}({movie.Year})</span>
       </div>
-    </div>
+      <img src={movie.Poster} alt={movie.Title} />
+    </li>
   );
 }
 
@@ -29,13 +28,15 @@ function SearchBar({ query, setQuery }) {
   }
 
   return (
-    <input
+ 
+     <input
       type="text"
       value={query}
       onChange={handleChange}
       className="search-bar"
       placeholder="Search for movies..."
     />
+  
   );
 }
 
@@ -93,18 +94,22 @@ function App() {
   // Define a useEffect hook to run only once when the component mounts
   useEffect(() => {
     // Fetch movies with an initial query
-    fetchMovies();
+    fetchMovies()
   }, []); // Add an empty dependency array to run the effect only once
 
   return (
     <div className="container">
-      <SearchBar query={query} setQuery={setQuery} />
+     <form>
+     <SearchBar query={query} setQuery={setQuery} />
       <button onClick={fetchMovies}>Search</button>
+     </form>
       <div className="results">
-        {loading && <div className="loading">Loading...</div>}
+        {/* {loading && <div className="loading">Loading...</div>} */}
+        <ul>
         {movies.map((movie) => (
           <Movie key={movie.imdbID} movie={movie} />
         ))}
+        </ul>
         {error && <div className="error">{error}</div>}
       </div>
     </div>

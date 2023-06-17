@@ -7,12 +7,12 @@ const apiUrl = "http://www.omdbapi.com/?apikey=" + apiKey + "&s=";
 // Define a custom component for the movie
 function Movie({ movie }) {
   return (
-    <li className="movie">
+    <div className="movie">
       <div className="movie-info">
         <span className="movie-title">{movie.Title}({movie.Year})</span>
       </div>
       <img src={movie.Poster} alt={movie.Title} />
-    </li>
+    </div>
   );
 }
 
@@ -29,13 +29,15 @@ function SearchBar({ query, setQuery }) {
 
   return (
  
-     <input
-      type="text"
-      value={query}
-      onChange={handleChange}
-      className="search-bar"
-      placeholder="Search for movies..."
-    />
+    <form id="search-form">
+      <input
+        type="text"
+        value={query}
+        onChange={handleChange}
+        className="search-bar"
+        placeholder="Search for movies..."
+      />
+    </form>
   
   );
 }
@@ -99,15 +101,15 @@ function App() {
 
   return (
     <div className="container">
-     <form>
+  
      <SearchBar query={query} setQuery={setQuery} />
       <button onClick={fetchMovies}>Search</button>
-     </form>
+   
       <div className="results">
-        {/* {loading && <div className="loading">Loading...</div>} */}
-        <ul>
+        {loading && <div className="loading">Loading...</div>}
+        <ul id="results-list">
         {movies.map((movie) => (
-          <Movie key={movie.imdbID} movie={movie} />
+         <li  key={movie.imdbID}><Movie movie={movie} /></li>
         ))}
         </ul>
         {error && <div className="error">{error}</div>}
